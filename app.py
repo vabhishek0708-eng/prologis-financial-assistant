@@ -24,14 +24,17 @@ AWS_REGION = EP["region"]
 
 for k, v in [
     ("page", "Dashboard"),
-    ("reg_result", None), ("reg_features", None),
-    ("clf_result", None), ("chat_history", []),
+    ("reg_result", None),
+    ("reg_features", None),
+    ("clf_result", None),
+    ("chat_history", []),
     ("prop_selected", ""),
-    ("show_chat_modal", False),
 ]:
     if k not in st.session_state:
         st.session_state[k] = v
 
+if "open_chat" not in st.session_state:
+    st.session_state.open_chat = False
 # ── DB ──
 @st.cache_resource
 def get_engine():
@@ -81,44 +84,8 @@ def get_press_releases_data():
 
 def ask_gemini(prompt):
     return ask_agent(prompt)
-def render_chat_content(suffix=""):
-    st.markdown("### 🤖 AI Assistant")
-    st.caption("Vertex AI ADK · Gemini 2.5 Flash")
-    chat_container = st.container(height=400)
-    with chat_container:
-        if not st.session_state.chat_history:
-            st.info("👋 Ask me about Prologis properties, financials, or forecasts!")
-        for msg in st.session_state.chat_history:
-            st.chat_message(msg["role"]).write(msg["content"])
-    if not st.session_state.chat_history:
-        for s in ["What was net income last quarter?",
-                  "Show industrial properties in Chicago",
-                  "Summarize latest press release",
-                  "Predict revenue for a SF property"]:
-            if st.button(s, key=f"sug_{s}{suffix}", use_container_width=True):
-                st.session_state.chat_history.append({"role": "user", "content": s})
-                with st.spinner("..."):
-                    reply = ask_gemini(s)
-                st.session_state.chat_history.append({"role": "assistant", "content": reply})
-                st.rerun()
-    user_input = st.chat_input("Ask Prologis AI...", key=f"chat_input{suffix}")
-    if user_input:
-        st.session_state.chat_history.append({"role": "user", "content": user_input})
-        with st.spinner("Thinking..."):
-            reply = ask_gemini(user_input)
-        st.session_state.chat_history.append({"role": "assistant", "content": reply})
-        st.rerun()
-    if st.session_state.chat_history:
-        if st.button("🗑️ Clear", key=f"clear_{suffix}", use_container_width=True):
-            st.session_state.chat_history = []
-            st.rerun()
 
-@st.dialog("🤖 AI Assistant", width="large")
-def chat_modal():
-    render_chat_content(suffix="_modal")
-    if st.button("✖️ Close", key="close_modal"):
-        st.session_state.show_chat_modal = False
-        st.rerun()
+
 # ── Sidebar ──
 with st.sidebar:
     st.markdown("""
@@ -158,7 +125,7 @@ with st.sidebar:
     for label in ["Dashboard", "Properties", "Revenue Forecast", "Risk Classification"]:
         if st.button(label, key=f"nav_{label}", use_container_width=True):
             st.session_state.page = label
-            st.session_state.open_chat = False
+            st.session_state.open_chat = False   # ← add this line
             st.rerun()
 
     st.markdown("""
@@ -229,20 +196,26 @@ def render_chat_content(suffix="", in_modal=False):
 
 @st.dialog("🤖 AI Assistant", width="large")
 def chat_modal():
-    render_chat_content(suffix="_modal")
-    if st.button("✖ Close", key="close_modal"):
-        st.session_state.show_chat_modal = False
-        st.rerun()
 
+    render_chat_content(suffix="_modal")
+
+    if st.button("✖ Close", key="close_modal"):
+        st.session_state.open_chat = False
+        st.rerun()
 
 with chat_col:
-    if st.button("⛶ Fullscreen Chat", key="toggle_fullscreen", use_container_width=True):
-        st.session_state.show_chat_modal = True
-        st.rerun()
-    if st.session_state.show_chat_modal:
-        chat_modal()
-    render_chat_content(suffix="_main")
 
+    if st.button(
+        "⛶ Fullscreen Chat",
+        key="toggle_fullscreen",
+        use_container_width=True
+    ):
+        st.session_state.open_chat = True
+
+    if st.session_state.open_chat:
+        chat_modal()
+
+    render_chat_content(suffix="_main")
 
 # ── MAIN CONTENT ──
 with main_col:
