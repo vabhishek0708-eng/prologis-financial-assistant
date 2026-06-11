@@ -158,6 +158,7 @@ with st.sidebar:
     for label in ["Dashboard", "Properties", "Revenue Forecast", "Risk Classification"]:
         if st.button(label, key=f"nav_{label}", use_container_width=True):
             st.session_state.page = label
+            st.session_state.open_chat = False
             st.rerun()
 
     st.markdown("""
