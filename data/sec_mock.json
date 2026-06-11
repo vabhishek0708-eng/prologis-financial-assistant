@@ -1,0 +1,93 @@
+{
+  "company": "Prologis Inc",
+  "ticker": "PLD",
+  "cik": "0001045609",
+  "source": "SEC EDGAR XBRL API",
+  "retrieved_at": "2026-06-10T15:20:53.964723",
+  "api_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045609.json",
+  "filings": [
+    {
+      "period": "Q1 2026",
+      "end_date": "2026-03-31",
+      "type": "10-Q",
+      "filed": "2026-04-30",
+      "revenue": 2297723000,
+      "net_income": 981976000,
+      "operating_expenses": 612295000,
+      "operating_income": 1211055000
+    },
+    {
+      "period": "FY 2025",
+      "end_date": "2025-12-31",
+      "type": "10-K",
+      "filed": "2026-02-13",
+      "revenue": 8790127000,
+      "net_income": 3328231000,
+      "operating_expenses": -2280683000,
+      "operating_income": 4357864000
+    },
+    {
+      "period": "Q3 2025",
+      "end_date": "2025-09-30",
+      "type": "10-Q",
+      "filed": "2025-10-28",
+      "revenue": 6537415000,
+      "net_income": 1928448000,
+      "operating_expenses": 1685958000,
+      "operating_income": 2731386000
+    },
+    {
+      "period": "FY 2025",
+      "end_date": "2025-09-30",
+      "type": "10-K",
+      "filed": "2026-02-13",
+      "revenue": 2213881000,
+      "net_income": 1928448000,
+      "operating_expenses": 1685958000,
+      "operating_income": 2731386000
+    },
+    {
+      "period": "Q2 2025",
+      "end_date": "2025-06-30",
+      "type": "10-Q",
+      "filed": "2025-07-30",
+      "revenue": 4323534000,
+      "net_income": 1164182000,
+      "operating_expenses": 1123329000,
+      "operating_income": 1791125000
+    },
+    {
+      "period": "FY 2025",
+      "end_date": "2025-06-30",
+      "type": "10-K",
+      "filed": "2026-02-13",
+      "revenue": 2183869000,
+      "net_income": 1164182000,
+      "operating_expenses": 1123329000,
+      "operating_income": 1791125000
+    },
+    {
+      "period": "Q1 2025",
+      "end_date": "2025-03-31",
+      "type": "10-Q",
+      "filed": "2025-04-29",
+      "revenue": 2139665000,
+      "net_income": 592953000,
+      "operating_expenses": 558743000,
+      "operating_income": 878413000
+    },
+    {
+      "period": "FY 2025",
+      "end_date": "2025-03-31",
+      "type": "10-K",
+      "filed": "2026-02-13",
+      "revenue": 2139665000,
+      "net_income": 592953000,
+      "operating_expenses": 558743000,
+      "operating_income": 878413000
+    }
+  ],
+  "latest_revenue": 2297723000,
+  "latest_net_income": 981976000,
+  "latest_op_expenses": 612295000
+}

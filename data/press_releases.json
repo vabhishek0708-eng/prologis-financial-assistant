@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "date": "2025-03-10",
+    "title": "Prologis Acquires 15-Property Industrial Portfolio in Chicago Metro for 420M",
+    "category": "acquisition",
+    "summary": "Prologis announced the acquisition of a 15-property industrial portfolio in the Chicago metropolitan area for approximately 420 million dollars. The portfolio comprises 3.1 million square feet of Class A warehouse and distribution space.",
+    "highlights": [
+      "15 properties acquired",
+      "420M transaction value",
+      "3.1M sq ft added",
+      "Chicago metro expansion"
+    ],
+    "source": "PR Newswire"
+  },
+  {
+    "id": 2,
+    "date": "2025-02-13",
+    "title": "Prologis Reports Record Q4 2024 Revenue of 2.647B",
+    "category": "earnings",
+    "summary": "Prologis reported record fourth quarter revenue of 2.647 billion dollars representing a 12 percent year over year increase. Net income for the quarter reached 1.123 billion dollars driven by strong occupancy rates across all markets.",
+    "highlights": [
+      "2.647B Q4 revenue",
+      "12% YoY growth",
+      "1.123B net income",
+      "97% portfolio occupancy"
+    ],
+    "source": "Business Wire"
+  },
+  {
+    "id": 3,
+    "date": "2025-01-15",
+    "title": "Prologis Expands into Dallas-Fort Worth with 250M Logistics Development",
+    "category": "expansion",
+    "summary": "Prologis announced plans to develop a 250 million dollar logistics facility in the Dallas-Fort Worth corridor. The development will include 850000 sq ft of modern distribution space expected to complete by Q2 2026.",
+    "highlights": [
+      "250M development",
+      "DFW market expansion",
+      "850K sq ft",
+      "Q2 2026 completion"
+    ],
+    "source": "PR Newswire"
+  },
+  {
+    "id": 4,
+    "date": "2024-11-20",
+    "title": "Prologis Completes 1B Green Bond Offering for Sustainability Initiatives",
+    "category": "financing",
+    "summary": "Prologis successfully completed a 1 billion dollar green bond offering to fund sustainability initiatives. Proceeds will finance solar installations and LEED certification upgrades across 50 properties.",
+    "highlights": [
+      "1B green bond",
+      "50 properties upgraded",
+      "Solar installations",
+      "LEED certification"
+    ],
+    "source": "Globe Newswire"
+  },
+  {
+    "id": 5,
+    "date": "2024-09-05",
+    "title": "Prologis Signs Long-Term Lease with Amazon for 12 Logistics Properties",
+    "category": "partnership",
+    "summary": "Prologis entered a long term lease agreement with Amazon for 12 logistics properties totaling 5.2 million square feet. The 15 year agreement valued at approximately 1.1 billion dollars strengthens Prologis industrial segment.",
+    "highlights": [
+      "Amazon partnership",
+      "12 logistics properties",
+      "5.2M sq ft leased",
+      "1.1B 15-year deal"
+    ],
+    "source": "Business Wire"
+  }
+]

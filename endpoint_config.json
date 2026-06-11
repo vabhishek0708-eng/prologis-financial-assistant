@@ -1,0 +1,6 @@
+{
+  "regression_endpoint": "prologis-regression-endpoint",
+  "classification_endpoint": "prologis-classification-endpoint",
+  "region": "us-east-2",
+  "s3_bucket": "prologis-financial-assistant-362612348837"
+}
