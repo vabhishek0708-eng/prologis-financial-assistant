@@ -26,14 +26,17 @@ S3_BUCKET    = "prologis-financial-assistant-362612348837"
 REG_ENDPOINT = "prologis-regression-endpoint"
 CLF_ENDPOINT = "prologis-classification-endpoint"
 DB_URL = os.getenv("DB_URL", "postgresql://postgres:Ktvab%402k@localhost:5432/realestate_db")
-
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "TRUE"
+os.environ["GOOGLE_CLOUD_PROJECT"]      = GCP_PROJECT
+os.environ["GOOGLE_CLOUD_LOCATION"]     = GCP_LOCATION
 # ════════════════════════════════════════════
 # ADK TOOLS — each tool is a function the
 # agent can call to get real data
 # ════════════════════════════════════════════
 AWS_KEY    = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET = os.getenv("AWS_SECRET_ACCESS_KEY")
-
+import vertexai
+vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
 def _s3():
     return boto3.client("s3",
         region_name=AWS_REGION,
@@ -253,8 +256,6 @@ def build_agent():
         from google.adk.runners import Runner
         from google.adk.sessions import InMemorySessionService
 
-        vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
-
         agent = Agent(
             name="prologis_financial_assistant",
             model="gemini-2.5-flash",
@@ -294,52 +295,47 @@ _runner  = None
 _session = None
 
 def ask_agent(user_message: str) -> str:
-    """
-    Send a message to the Prologis ADK agent and get a response.
-    Falls back to direct Gemini if ADK is unavailable.
-    """
-    global _agent, _runner, _session
-
+    """Run the Prologis ADK agent on Vertex AI (google-adk 2.2.0)."""
+    global _agent
     try:
-        from google.adk.agents import Agent
+        import asyncio
         from google.adk.runners import Runner
         from google.adk.sessions import InMemorySessionService
-        import vertexai
-        vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
+        from google.genai import types
 
         if _agent is None:
             _agent = build_agent()
-
         if _agent is None:
             raise Exception("Agent not built")
 
-        session_service = InMemorySessionService()
-        runner = Runner(
-            agent=_agent,
-            app_name="prologis_assistant",
-            session_service=session_service,
-        )
+        async def _run() -> str:
+            session_service = InMemorySessionService()
+            session = await session_service.create_session(
+                app_name="prologis_assistant",
+                user_id="streamlit_user",
+            )
+            runner = Runner(
+                agent=_agent,
+                app_name="prologis_assistant",
+                session_service=session_service,
+            )
+            text = ""
+            async for event in runner.run_async(
+                user_id="streamlit_user",
+                session_id=session.id,
+                new_message=types.Content(
+                    role="user",
+                    parts=[types.Part(text=user_message)],
+                ),
+            ):
+                if event.is_final_response() and event.content and event.content.parts:
+                    text = event.content.parts[0].text
+            return text or "No response from agent."
 
-        session = session_service.create_session(
-            app_name="prologis_assistant",
-            user_id="streamlit_user",
-        )
-
-        from google.adk.types import Content, Part
-        response_text = ""
-        for event in runner.run(
-            user_id="streamlit_user",
-            session_id=session.id,
-            new_message=Content(parts=[Part(text=user_message)]),
-        ):
-            if event.is_final_response():
-                response_text = event.content.parts[0].text
-                break
-
-        return response_text if response_text else "No response from agent."
+        return asyncio.run(_run())
 
     except Exception as e:
-        print(f"ADK FAILED: {e}")
+        print(f">>> ADK FAILED: {e}")
         try:
             import vertexai
             from vertexai.generative_models import GenerativeModel
@@ -349,9 +345,8 @@ def ask_agent(user_message: str) -> str:
             prompt = f"You are a Prologis financial analyst. {ctx}\nUser: {user_message}"
             return GenerativeModel("gemini-2.5-flash").generate_content(prompt).text
         except Exception as e2:
-            return f"AI service temporarily unavailable. Please try again. Error: {str(e2)[:100]}"
-
-
+            return f"AI service temporarily unavailable. Error: {str(e2)[:100]}"
+        
 if __name__ == "__main__":
     print("Testing Prologis ADK Agent...")
     print()
