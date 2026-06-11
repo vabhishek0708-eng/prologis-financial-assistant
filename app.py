@@ -231,7 +231,7 @@ def render_chat_content(suffix="", in_modal=False):
 def chat_modal():
     render_chat_content(suffix="_modal")
     if st.button("✖ Close", key="close_modal"):
-        
+        st.session_state.show_chat_modal = False
         st.rerun()
 
 
