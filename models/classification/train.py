@@ -27,9 +27,9 @@ for col in categorical_cols:
 y = (y == 'yes').astype(int)
 
 scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train = scaler.fit_transform(X_train)
+X_test  = scaler.transform(X_test)
 print('Train size:', X_train.shape[0], 'Test size:', X_test.shape[0])
 
 print('Training Logistic Regression...')
