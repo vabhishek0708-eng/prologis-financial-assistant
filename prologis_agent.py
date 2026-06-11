@@ -339,6 +339,7 @@ def ask_agent(user_message: str) -> str:
         return response_text if response_text else "No response from agent."
 
     except Exception as e:
+        print(f"ADK FAILED: {e}")
         try:
             import vertexai
             from vertexai.generative_models import GenerativeModel
